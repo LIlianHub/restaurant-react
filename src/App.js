@@ -1,26 +1,30 @@
-import logo from './img/logo.png';
-import 'bootstrap/dist/css/bootstrap.css';
+import { Header } from "./Header/Header";
+import { Home } from "./Pages/Home/Home";
+import { Food } from "./Pages/Food/Food";
+import { Menu } from "./Pages/Menu/Menu";
+import { Order } from "./Pages/Order/Order";
 
-import './App.css';
+import "bootstrap/dist/css/bootstrap.css";
+
+import "./App.css";
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Header />
+      <main className="w-75 mx-auto p-5">
+        <Routes>
+          <Route>
+            <Route path="*" element={<Home />} />
+            <Route path="food" element={<Food />} />
+            <Route path="menu" element={<Menu />} />
+            <Route path="order" element={<Order />} />
+          </Route>
+        </Routes>
+      </main>
+    </BrowserRouter>
   );
 }
 

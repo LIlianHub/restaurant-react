@@ -1,0 +1,30 @@
+.presentation{
+    display: flex;
+    flex-direction: row;
+
+}
+
+.boite-img img{
+    width: 75%;
+    border-radius: 20px;
+
+}
+
+.boite-img{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: 50%;
+}
+
+.boite-txt{
+    display: flex;
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.boite-txt p{
+    font-size: 1.5em;
+}
