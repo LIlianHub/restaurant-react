@@ -5,11 +5,11 @@ import "./Home.css";
 export const Home = () => {
   return (
     <>
-      <div class="presentation">
-        <div class="boite-img">
+      <div className="presentation">
+        <div className="boite-img">
           <img src={restau}></img>
         </div>
-        <div class="boite-txt">
+        <div className="boite-txt">
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
             cursus vel urna semper vulputate. Curabitur justo diam, feugiat in

@@ -9,8 +9,41 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 function App() {
+
+  const [foodList, setFoodList] = useState([]);
+  const [menuList, setMenuList] = useState([]);
+  const [cart, setCart] = useState({ selectedFoods: [], selectedMenus: [] });
+
+
+  useEffect(() => {
+    fetch("http://cabe0232.odns.fr/webdev-api/food")
+      .then((response) => response.json())
+      .then((json) => setFoodList(json));
+
+    fetch("http://cabe0232.odns.fr/webdev-api/menu")
+      .then((response) => response.json())
+      .then((json) => setMenuList(json));
+  }, []);
+
+  const addMenuToCart = (menu) => {
+    const modif = { ...cart };
+    modif.selectedMenus.push(menu);
+    setCart(modif);
+
+    console.log(cart);
+  };
+  const addFoodToCart = (food) => {
+    const modif = { ...cart };
+    modif.selectedFoods.push(food);
+    setCart(modif);
+
+    console.log(cart);
+  };
+
+
   return (
     <BrowserRouter>
       <Header />
@@ -18,8 +51,8 @@ function App() {
         <Routes>
           <Route>
             <Route path="*" element={<Home />} />
-            <Route path="food" element={<Food />} />
-            <Route path="menu" element={<Menu />} />
+            <Route path="food" element={<Food foodList={foodList} addToCart={addFoodToCart} />} />
+            <Route path="menu" element={<Menu foodList={foodList} menuList={menuList} addToCart={addMenuToCart} />} />
             <Route path="order" element={<Order />} />
           </Route>
         </Routes>
@@ -27,5 +60,8 @@ function App() {
     </BrowserRouter>
   );
 }
+
+
+
 
 export default App;
