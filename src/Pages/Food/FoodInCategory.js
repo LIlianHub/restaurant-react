@@ -9,7 +9,7 @@ export const FoodInCategory = ({ allFood, filterName, addToCart }) => {
 
     return (foodSorted.map((food) => {
         return (
-            <Card element={food} addToCart={addToCart} />
+            <Card key={`food-${food.id}`} element={food} addToCart={addToCart} />
         );
     }));
 };
