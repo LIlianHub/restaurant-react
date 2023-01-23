@@ -1,4 +1,10 @@
-export const Card = ({ element, addToCart }) => {
+import { useContext } from "react";
+import { CartContext } from "../context/cart-context";
+
+export const Card = ({ element }) => {
+    const [cart, setCart, addMenuToCart, addFoodToCart] = useContext(CartContext);
+
+
     return (
         <div key={element.id} className="card w-25 mx-3 mb-4">
             <img src={element.photo} className="card-img-top" alt={element.title} />
@@ -7,9 +13,9 @@ export const Card = ({ element, addToCart }) => {
                 <p className="card-text flex-grow-1">{element.description}</p>
                 <div className="d-flex">
                     <span className="fw-bold">{element.price}€</span>
-                    <a onClick={data => addToCart(element)} className="btn btn-primary mx-3">
+                    <button onClick={data => addFoodToCart(element)} className="btn btn-primary mx-3">
                         Ajouter à ma commande
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>

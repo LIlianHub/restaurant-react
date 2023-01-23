@@ -1,6 +1,14 @@
 import { MenuCheckBox } from "./MenuCheckBox";
+import { useContext } from "react";
+import { CartContext } from "../../context/cart-context";
 
-export const MenuCard = ({ menu, foodList, addToCart }) => {
+export const MenuCard = ({ menu, foodList }) => {
+
+    
+
+    const [cart, setCart, addMenuToCart, addFoodToCart] = useContext(CartContext);
+
+    
 
     const menusCheckbox = foodList.filter((food) => food.category === "DESSERT").map((food) => {
         return (
@@ -10,6 +18,12 @@ export const MenuCard = ({ menu, foodList, addToCart }) => {
         return (
             <MenuCheckBox key={`menu-${menu.id}-food-${food.id}`} menu={menu} food={food} />)
     });
+
+    // a faire
+
+    //const [menuOrder, setMenuOrder] = useState({ menu, food, dessert});
+
+
 
     return (
         <div className="card w-25 mx-3 mb-4">
@@ -27,7 +41,7 @@ export const MenuCard = ({ menu, foodList, addToCart }) => {
                 </div>
                 <div className="d-flex mt-3">
                     <span className="fw-bold">{menu.price}€</span>
-                    <a onClick={data => addToCart(menu)} className="btn btn-primary mx-3">Ajouter à ma commande</a>
+                    <button onClick={data => addMenuToCart(menu)} disabled={false} className="btn btn-primary mx-3">Ajouter à ma commande</button>
                 </div>
             </div>
         </div>

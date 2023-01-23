@@ -3,6 +3,7 @@ import { Home } from "./Pages/Home/Home";
 import { Food } from "./Pages/Food/Food";
 import { Menu } from "./Pages/Menu/Menu";
 import { Order } from "./Pages/Order/Order";
+import { CartContext } from "./context/cart-context";
 
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -46,18 +47,21 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Header />
-      <main className="w-75 mx-auto p-5">
-        <Routes>
-          <Route>
-            <Route path="*" element={<Home />} />
-            <Route path="food" element={<Food foodList={foodList} addToCart={addFoodToCart} />} />
-            <Route path="menu" element={<Menu foodList={foodList} menuList={menuList} addToCart={addMenuToCart} />} />
-            <Route path="order" element={<Order />} />
-          </Route>
-        </Routes>
-      </main>
+      <CartContext.Provider value={[cart, setCart, addMenuToCart, addFoodToCart]}>
+        <Header />
+        <main className="w-75 mx-auto p-5">
+          <Routes>
+            <Route>
+              <Route path="*" element={<Home />} />
+              <Route path="food" element={<Food foodList={foodList} />} />
+              <Route path="menu" element={<Menu foodList={foodList} menuList={menuList} />} />
+              <Route path="order" element={<Order />}/>
+            </Route>
+          </Routes>
+        </main>
+      </CartContext.Provider>
     </BrowserRouter>
+
   );
 }
 

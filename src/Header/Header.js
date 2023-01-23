@@ -1,4 +1,8 @@
 import logo from "./logo.png"
+import { Link } from "react-router-dom";
+import { CartContext } from "../context/cart-context";
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import { useContext } from "react";
 
 export const Header = () => {
   const menus = [
@@ -23,12 +27,14 @@ export const Header = () => {
   const navItems = menus.map((menu) => {
     return (
       <li className="nav-item mx-3" key={menu.url}>
-        <a className="nav-link active" aria-current="page" href={menu.url}>
+        <Link className="nav-link active" aria-current="page" to={menu.url}>
           {menu.name}
-        </a>
+        </Link>
       </li>
     );
   });
+
+  const [cart, setCart, addMenuToCart, addFoodToCart] = useContext(CartContext);
 
   return (
     <>
@@ -42,6 +48,11 @@ export const Header = () => {
         />
         <ul className="navbar-nav flex-grow-1 d-flex flex-row justify-content-end mx-5 mb-2">
           {navItems}
+          <i className="bi-basket position-relative fs-3">
+            <span className="position-absolute badge rounded-pill bg-primary" style={{ fontSize: '0.4em' }}>
+              {cart.selectedFoods.length + cart.selectedMenus.length}
+            </span>
+          </i>
         </ul>
       </nav>
     </>
