@@ -4,11 +4,11 @@ import { CartContext } from "../../context/cart-context";
 
 export const MenuCard = ({ menu, foodList }) => {
 
-    
+
 
     const [cart, setCart, addMenuToCart, addFoodToCart] = useContext(CartContext);
 
-    
+    console.log(menu);
 
     const menusCheckbox = foodList.filter((food) => food.category === "DESSERT").map((food) => {
         return (
@@ -19,9 +19,19 @@ export const MenuCard = ({ menu, foodList }) => {
             <MenuCheckBox key={`menu-${menu.id}-food-${food.id}`} menu={menu} food={food} />)
     });
 
-    // a faire
+    const [menuOrder, setMenuOrder] = useState({ id, price, title, meal, dessert });
 
-    //const [menuOrder, setMenuOrder] = useState({ menu, food, dessert});
+    useEffect(() => {
+        setMenuOrder({ id: menu.id, price: menu.price, title: menu.title, meal: undefined, dessert: undefined });
+    });
+
+    verifMenu = () => {
+        if (menuOrder.meal === undefined || menuOrder.dessert === undefined) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
 
 
