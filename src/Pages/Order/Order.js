@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { CartContext } from "../../context/cart-context";
+import { Admin } from "../Admin/Admin"
 
 export const Order = () => {
   const [cart, setCart, addMenuToCart, addFoodToCart] = useContext(CartContext);
@@ -16,10 +17,20 @@ export const Order = () => {
 
   const listMenu = cart.selectedMenus.map((menu) => {
     return (
-      <tr key={`order-menu-${menu.id}`}>
-        <td>{menu.title}</td>
-        <td>{menu.price}€</td>
-      </tr>
+      <>
+        <tr key={`order-menu-${menu.id}`}>
+          <td>{menu.title}</td>
+          <td>{menu.price}€</td>
+        </tr>
+        <tr>
+          <td><li>{menu.meal.title}</li></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><li>{menu.dessert.title}</li></td>
+          <td></td>
+        </tr>
+      </>
     );
   });
 
@@ -35,24 +46,26 @@ export const Order = () => {
 
 
   return (
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Article</th>
-          <th scope="col">Prix</th>
-        </tr>
-      </thead>
-      <tbody>
-        {listMenu}
-        {listProduit}
-      </tbody>
-      <thead>
-        <tr>
-          <th scope="col">Total</th>
-          <th scope="col">{total.toFixed(2)}€</th>
-        </tr>
-      </thead>
-    </table>
-
+    <>
+      <table className="table">
+        <thead>
+          <tr>
+            <th scope="col">Article</th>
+            <th scope="col">Prix</th>
+          </tr>
+        </thead>
+        <tbody>
+          {listMenu}
+          {listProduit}
+        </tbody>
+        <thead>
+          <tr>
+            <th scope="col">Total</th>
+            <th scope="col">{total.toFixed(2)}€</th>
+          </tr>
+        </thead>
+      </table>
+      <Admin key="admin-command"/>
+    </>
   );
 };

@@ -1,38 +1,53 @@
 import { MenuCheckBox } from "./MenuCheckBox";
 import { useContext } from "react";
 import { CartContext } from "../../context/cart-context";
+import { useState, useEffect } from "react";
 
 export const MenuCard = ({ menu, foodList }) => {
 
-
+    const [menuOrder, setMenuOrder] = useState({});
 
     const [cart, setCart, addMenuToCart, addFoodToCart] = useContext(CartContext);
 
-    console.log(menu);
-
-    const menusCheckbox = foodList.filter((food) => food.category === "DESSERT").map((food) => {
-        return (
-            <MenuCheckBox key={`menu-${menu.id}-food-${food.id}`} menu={menu} food={food} />)
-    });
-    const mealsCheckbox = foodList.filter((food) => food.menuId === menu.id).map((food) => {
-        return (
-            <MenuCheckBox key={`menu-${menu.id}-food-${food.id}`} menu={menu} food={food} />)
-    });
-
-    const [menuOrder, setMenuOrder] = useState({ id, price, title, meal, dessert });
-
     useEffect(() => {
         setMenuOrder({ id: menu.id, price: menu.price, title: menu.title, meal: undefined, dessert: undefined });
-    });
+    }, [menu.id]);
 
-    verifMenu = () => {
+
+    var disableButton;
+
+
+    const verifMenu = () => {
         if (menuOrder.meal === undefined || menuOrder.dessert === undefined) {
-            return false;
+            disableButton = true;
+
         } else {
-            return true;
+            disableButton = false;
         }
     }
 
+    const setFood = (food) => {
+        const modif = { ...menuOrder };
+        modif.meal = food;
+        setMenuOrder(modif);
+    }
+
+    const setDessert = (dessert) => {
+        const modif = { ...menuOrder };
+        modif.dessert = dessert;
+        setMenuOrder(modif);
+    }
+
+    verifMenu();
+
+    const menusCheckbox = foodList.filter((food) => food.category === "DESSERT").map((food) => {
+        return (
+            <MenuCheckBox functionAdd={setDessert} key={`menu-${menu.id}-food-${food.id}`} menu={menu} food={food} />)
+    });
+    const mealsCheckbox = foodList.filter((food) => food.menuId === menu.id).map((food) => {
+        return (
+            <MenuCheckBox functionAdd={setFood} key={`menu-${menu.id}-food-${food.id}`} menu={menu} food={food} />)
+    });
 
 
     return (
@@ -51,10 +66,9 @@ export const MenuCard = ({ menu, foodList }) => {
                 </div>
                 <div className="d-flex mt-3">
                     <span className="fw-bold">{menu.price}€</span>
-                    <button onClick={data => addMenuToCart(menu)} disabled={false} className="btn btn-primary mx-3">Ajouter à ma commande</button>
+                    <button onClick={data => addMenuToCart(menuOrder)} disabled={disableButton} className="btn btn-primary mx-3">Ajouter à ma commande</button>
                 </div>
             </div>
         </div>
-
     );
 };
