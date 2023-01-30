@@ -37,7 +37,6 @@ export const Admin = () => {
             })
             .catch((error) => {
                 console.error('Error:', error);
-                document.getElementById("formCommand").reset();
             });
     }
 
