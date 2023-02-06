@@ -47,6 +47,8 @@ export const Order = () => {
 
   return (
     <>
+      <h1 className="text-center">Commande</h1>
+      <hr className="mb-2"></hr>
       <table className="table">
         <thead>
           <tr>
@@ -65,7 +67,7 @@ export const Order = () => {
           </tr>
         </thead>
       </table>
-      <Commande key="user-command"/>
+      <Commande key="user-command" />
     </>
   );
 };

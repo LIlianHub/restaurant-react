@@ -11,9 +11,14 @@ export const Menu = ({ foodList, menuList }) => {
 
   //console.log(menuCards);
 
-  return (<div className="d-flex flex-wrap justify-content-center">
-    {menuCards}
-  </div>);
+  return (
+    <>
+      <h1 className="text-center">Menus</h1>
+      <hr className="mb-2"></hr>
+      <div className="d-flex flex-wrap justify-content-center">
+        {menuCards}
+      </div>
+    </>);
 
 
 };

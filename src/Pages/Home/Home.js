@@ -5,6 +5,8 @@ import "./Home.css";
 export const Home = () => {
   return (
     <>
+      <h1 className="text-center">Accueil</h1>
+      <hr className="mb-2"></hr>
       <div className="presentation">
         <div className="boite-img">
           <img src={restau}></img>
