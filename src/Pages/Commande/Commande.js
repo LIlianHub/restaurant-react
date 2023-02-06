@@ -1,6 +1,7 @@
 import { useContext, useDebugValue, createRef } from "react";
 import { CartContext } from "../../context/cart-context";
 import { useState, useEffect } from "react";
+import { v4 as uuid } from 'uuid';
 
 export const Commande = () => {
 
@@ -47,7 +48,6 @@ export const Commande = () => {
             .then((data) => {
                 //console.log('Success:', data);
                 setShowSuccess(true);
-                clearForm();
                 clearCard();
             })
             .catch((error) => {
@@ -91,13 +91,14 @@ export const Commande = () => {
     const handleCLick = (event) => {
 
         event.preventDefault();
+        clearForm();
         if (formData.nom !== "" && formData.prenom !== "" && formData.telephone !== "") {
             setShowResults(false);
             let data = builderRequest();
             let dataRequest = {
-                "id": Math.floor((Math.random() * 100000000000)),
+                "id": uuid(),
                 "description": data.desc,
-                "client": formData.nom + " " + formData.prenom + " " + formData.telephone,
+                "client": formData.nom + "\n" + formData.prenom + "\n" + formData.telephone.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, '$1.$2.$3.$4.$5'),
                 "price": data.price,
                 "date": data.date
             }
@@ -161,7 +162,7 @@ export const Commande = () => {
                         value={formData.telephone}
                         onChange={handleInputChange}
                         className="form-control"
-                        pattern="^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"
+                        pattern="^0[0-9]{9}$"
                         key="inputPhone"
                     />
                 </div>
