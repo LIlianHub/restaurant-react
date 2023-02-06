@@ -1,9 +1,12 @@
+import React from "react";
 import { useContext } from "react";
 import { CartContext } from "../../context/cart-context";
 import { Commande } from "../Commande/Commande"
+import { CartType, MenuType, FoodType } from "../../models/Type";
 
 export const Order = () => {
-  const [cart, setCart, addMenuToCart, addFoodToCart] = useContext(CartContext);
+
+  const [cart] = useContext<[CartType]>(CartContext);
 
 
   const listProduit = cart.selectedFoods.map((food) => {

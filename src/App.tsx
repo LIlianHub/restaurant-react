@@ -5,6 +5,8 @@ import { Menu } from "./Pages/Menu/Menu";
 import { Order } from "./Pages/Order/Order";
 import { CartContext } from "./context/cart-context";
 import { Admin } from "./Pages/Admin/Admin";
+import React from "react";
+import { FoodType, MenuType, CartType } from "./models/Type";
 
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -13,11 +15,15 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 
+
+
+/*App*/
+
 function App() {
 
-  const [foodList, setFoodList] = useState([]);
-  const [menuList, setMenuList] = useState([]);
-  const [cart, setCart] = useState({ selectedFoods: [], selectedMenus: [] });
+  const [foodList, setFoodList] = useState<FoodType[]>([]);
+  const [menuList, setMenuList] = useState<MenuType[]>([]);
+  const [cart, setCart] = useState<CartType>({ selectedFoods: [], selectedMenus: [] });
 
 
   useEffect(() => {
@@ -30,7 +36,7 @@ function App() {
       .then((json) => setMenuList(json));
   }, []);
 
-  const addMenuToCart = (menu) => {
+  const addMenuToCart = (menu : MenuType) => {
     const modif = { ...cart };
     menu.idKey = Math.floor((Math.random() * 100000000000));
     //console.log(menu);
@@ -39,7 +45,7 @@ function App() {
 
     //console.log(cart);
   };
-  const addFoodToCart = (food) => {
+  const addFoodToCart = (food : FoodType) => {
     const modif = { ...cart };
     food.idKey = Math.floor((Math.random() * 100000000000));
     modif.selectedFoods.push(food);
@@ -59,8 +65,8 @@ function App() {
               <Route path="*" element={<Home />} />
               <Route path="food" element={<Food foodList={foodList} />} />
               <Route path="menu" element={<Menu foodList={foodList} menuList={menuList} />} />
-              <Route path="order" element={<Order />}/>
-              <Route path="admin" element={<Admin />}/>
+              <Route path="order" element={<Order />} />
+              <Route path="admin" element={<Admin />} />
             </Route>
           </Routes>
         </main>

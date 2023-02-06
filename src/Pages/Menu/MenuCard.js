@@ -7,11 +7,11 @@ export const MenuCard = ({ menu, foodList }) => {
 
     const [menuOrder, setMenuOrder] = useState({});
 
-    const [cart, setCart, addMenuToCart, addFoodToCart] = useContext(CartContext);
+    const [addMenuToCart] = useContext(CartContext);
 
     useEffect(() => {
         setMenuOrder({ id: menu.id, price: menu.price, title: menu.title, meal: undefined, dessert: undefined });
-    }, [menu.id]);
+    }, [menu.id, menu.price, menu.title]);
 
 
     var disableButton;

@@ -1,11 +1,11 @@
-import { useContext, useDebugValue, createRef } from "react";
+import { useContext } from "react";
 import { CartContext } from "../../context/cart-context";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { v4 as uuid } from 'uuid';
 
 export const Commande = () => {
 
-    const [cart, setCart, addMenuToCart, addFoodToCart] = useContext(CartContext);
+    const [cart, setCart] = useContext(CartContext);
     const [showResults, setShowResults] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
     const [formData, setFormData] = useState({
@@ -111,7 +111,7 @@ export const Commande = () => {
 
 
     const verifForCommand = () => {
-        if (cart.selectedFoods.length == 0 && cart.selectedMenus.length == 0) {
+        if (cart.selectedFoods.length === 0 && cart.selectedMenus.length === 0) {
             disableButton = true;
         }
         else {
@@ -154,7 +154,7 @@ export const Commande = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="telephone">Téléphone (Valid synthaxe)</label>
+                    <label htmlFor="telephone">Téléphone (ex: 0606060606)</label>
                     <input
                         type="tel"
                         id="telephone"
