@@ -7,7 +7,7 @@ export const MenuCard = ({ menu, foodList }) => {
 
     const [menuOrder, setMenuOrder] = useState({});
 
-    const [addMenuToCart] = useContext(CartContext);
+    const [, , addMenuToCart] = useContext(CartContext);
 
     useEffect(() => {
         setMenuOrder({ id: menu.id, price: menu.price, title: menu.title, meal: undefined, dessert: undefined });

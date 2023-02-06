@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { CartContext } from "../context/cart-context";
 
 export const Card = ({ element }) => {
-    const [cart, setCart, addMenuToCart, addFoodToCart] = useContext(CartContext);
+    const [, , , addFoodToCart] = useContext(CartContext);
 
 
     return (
