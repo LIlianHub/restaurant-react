@@ -2,8 +2,12 @@
 
 ## Période de création
 
-- Janvier 2023 à maintenant
+- Janvier 2023
 
 ## Langage utilisé
 
 - ReactJs
+
+## Outils utilisés
+
+- Bootstrap
