@@ -8,7 +8,7 @@ export const Order = () => {
 
   const listProduit = cart.selectedFoods.map((food) => {
     return (
-      <tr key={`order-food-${food.id}`}>
+      <tr key={`order-food-${food.idKey}`}>
         <td>{food.title}</td>
         <td>{food.price}€</td>
       </tr>
@@ -18,7 +18,7 @@ export const Order = () => {
   const listMenu = cart.selectedMenus.map((menu) => {
     return (
       <>
-        <tr key={`order-menu-${menu.id}`}>
+        <tr key={`order-menu-${menu.idKey}`}>
           <td>{menu.title}</td>
           <td>{menu.price}€</td>
         </tr>

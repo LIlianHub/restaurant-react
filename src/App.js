@@ -31,17 +31,20 @@ function App() {
 
   const addMenuToCart = (menu) => {
     const modif = { ...cart };
+    menu.idKey = Math.floor((Math.random() * 100000000000));
+    //console.log(menu);
     modif.selectedMenus.push(menu);
     setCart(modif);
 
-    console.log(cart);
+    //console.log(cart);
   };
   const addFoodToCart = (food) => {
     const modif = { ...cart };
+    food.idKey = Math.floor((Math.random() * 100000000000));
     modif.selectedFoods.push(food);
     setCart(modif);
 
-    console.log(cart);
+    //console.log(cart);
   };
 
 

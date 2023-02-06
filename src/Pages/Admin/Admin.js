@@ -1,21 +1,34 @@
-import { useContext, useDebugValue } from "react";
+import { useContext, useDebugValue, createRef } from "react";
 import { CartContext } from "../../context/cart-context";
 import { useState, useEffect } from "react";
 
 export const Admin = () => {
 
-
-
     const [cart, setCart, addMenuToCart, addFoodToCart] = useContext(CartContext);
-
-    var disableButton;
-
-
+    const [showResults, setShowResults] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
     const [formData, setFormData] = useState({
         nom: "",
         prenom: "",
         telephone: ""
     });
+
+
+    var disableButton;
+
+    var errorMessage = <div className="alert alert-danger" role="alert">
+        Un des champs est mal remplis !
+    </div>;
+
+    var successMessage = <div className="toast show">
+        <div className="toast-header">
+            <strong className="me-auto">Succes !</strong>
+            <button type="button" className="btn-close" data-bs-dismiss="toast"></button>
+        </div>
+        <div className="toast-body">
+            <p>Votre commande à bien était prise en compte !</p>
+        </div>
+    </div>;
 
     const handleInputChange = event => {
         setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -32,12 +45,26 @@ export const Admin = () => {
         })
             .then((response) => response.text())
             .then((data) => {
-                console.log('Success:', data);
-                document.getElementById("formCommand").reset();
+                //console.log('Success:', data);
+                setShowSuccess(true);
+                clearForm();
+                clearCard();
             })
             .catch((error) => {
-                console.error('Error:', error);
+                //console.error('Error:', error);
             });
+    }
+
+    const clearForm = () => {
+        setFormData({
+            nom: "",
+            prenom: "",
+            telephone: ""
+        });
+    }
+
+    const clearCard = () => {
+        setCart({ selectedFoods: [], selectedMenus: [] });
     }
 
 
@@ -57,6 +84,7 @@ export const Admin = () => {
         });
 
         let ladate = new Date();
+        price.toFixed(2);
         return { "desc": desc, "price": price, "date": ladate.toISOString() };
     }
 
@@ -64,6 +92,7 @@ export const Admin = () => {
 
         event.preventDefault();
         if (formData.nom != "" && formData.prenom != "" && formData.telephone != "") {
+            setShowResults(false);
             let data = builderRequest();
             let dataRequest = {
                 "id": Math.floor((Math.random() * 100000000000)),
@@ -73,15 +102,16 @@ export const Admin = () => {
                 "date": data.date
             }
             sendCommand(dataRequest);
-
-            //console.log(dataRequest);
+        }
+        else {
+            setShowResults(true);
         }
     }
+
 
     const verifForCommand = () => {
         if (cart.selectedFoods.length == 0 && cart.selectedMenus.length == 0) {
             disableButton = true;
-            console.log("test");
         }
         else {
             disableButton = false;
@@ -92,8 +122,10 @@ export const Admin = () => {
 
     return (
         <>
+            {showSuccess ? successMessage : null}
             <h2>Vos informations</h2>
-            <form onSubmit={handleCLick} className="form-group" id="formCommand">
+            <form onSubmit={handleCLick} className="form-group">
+                {showResults ? errorMessage : null}
                 <div>
                     <label htmlFor="nom">Nom (3 à 16 char)</label>
                     <input
@@ -104,6 +136,7 @@ export const Admin = () => {
                         onChange={handleInputChange}
                         className="form-control"
                         pattern="\w{3,16}"
+                        key="inputName"
                     />
                 </div>
                 <div>
@@ -116,6 +149,7 @@ export const Admin = () => {
                         onChange={handleInputChange}
                         className="form-control"
                         pattern="\w{3,16}"
+                        key="inputSurname"
                     />
                 </div>
                 <div>
@@ -128,9 +162,10 @@ export const Admin = () => {
                         onChange={handleInputChange}
                         className="form-control"
                         pattern="^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"
+                        key="inputPhone"
                     />
                 </div>
-                <button disabled={disableButton} type="submit" className="btn btn-primary">Envoyer</button>
+                <button disabled={disableButton} type="submit" className="btn btn-primary mt-1">Envoyer</button>
             </form>
         </>
     );
