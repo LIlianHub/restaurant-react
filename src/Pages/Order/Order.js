@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { CartContext } from "../../context/cart-context";
-import { Admin } from "../Admin/Admin"
+import { Commande } from "../Commande/Commande"
 
 export const Order = () => {
   const [cart, setCart, addMenuToCart, addFoodToCart] = useContext(CartContext);
@@ -65,7 +65,7 @@ export const Order = () => {
           </tr>
         </thead>
       </table>
-      <Admin key="admin-command"/>
+      <Commande key="user-command"/>
     </>
   );
 };

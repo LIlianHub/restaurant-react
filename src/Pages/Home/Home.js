@@ -11,19 +11,7 @@ export const Home = () => {
         </div>
         <div className="boite-txt">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            cursus vel urna semper vulputate. Curabitur justo diam, feugiat in
-            nulla sit amet, bibendum pellentesque enim. Vestibulum ante ipsum
-            primis in faucibus orci luctus et ultrices posuere cubilia curae; In
-            in cursus mi. Donec rutrum hendrerit purus, et porta augue ultricies
-            eget. Nunc feugiat volutpat leo ut venenatis. Morbi pellentesque
-            convallis luctus. Praesent at hendrerit magna. Sed mollis ornare
-            nisi, in malesuada felis aliquet vitae. In vulputate rutrum enim,
-            nec ornare purus fermentum non. Sed interdum ultricies metus
-            fringilla pellentesque. Donec eget velit iaculis, sodales metus
-            quis, tristique dui. Aenean euismod maximus arcu nec gravida. Proin
-            euismod nibh non libero porta, in pretium nibh auctor. Nullam nec
-            vehicula nisi, eu porta metus.
+            Le restaurant "MiamMiam Co" est un endroit idéal pour les gourmets qui aiment explorer de nouveaux horizons culinaires. Il propose une cuisine diverse, allant des plats traditionnels aux saveurs exotiques les plus audacieuses. Le menu change régulièrement pour suivre les saisons et les tendances culinaires, offrant toujours de nouvelles options pour les clients réguliers. Les ingrédients frais et de qualité supérieure sont utilisés pour créer des plats délicieux qui raviront les papilles. Le personnel accueillant et professionnel assure une expérience culinaire inoubliable. Visitez "MiamMiam Co" pour découvrir de nouvelles saveurs et des plats délicieux à chaque visite.
           </p>
         </div>
       </div>

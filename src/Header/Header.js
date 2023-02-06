@@ -39,13 +39,14 @@ export const Header = () => {
   return (
     <>
       <nav className="navbar navbar-light bg-light w-100 d-flex walign-items-center">
-        <img
-          src={logo}
-          alt="logo"
-          width="120"
-          className="navbar-brand mx-5"
-          href="#"
-        />
+        <Link to="/home">
+          <img
+            src={logo}
+            alt="logo"
+            width="120"
+            className="navbar-brand mx-5"
+          />
+        </Link>
         <ul className="navbar-nav flex-grow-1 d-flex flex-row justify-content-end mx-5 mb-2">
           {navItems}
           <i className="bi-basket position-relative fs-3">

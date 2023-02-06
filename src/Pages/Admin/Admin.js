@@ -1,172 +1,65 @@
-import { useContext, useDebugValue, createRef } from "react";
-import { CartContext } from "../../context/cart-context";
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 export const Admin = () => {
+    const [orderList, setOrderList] = useState([]);
+    const [selected, setSelected] = useState([]);
 
-    const [cart, setCart, addMenuToCart, addFoodToCart] = useContext(CartContext);
-    const [showResults, setShowResults] = useState(false);
-    const [showSuccess, setShowSuccess] = useState(false);
-    const [formData, setFormData] = useState({
-        nom: "",
-        prenom: "",
-        telephone: ""
-    });
-
-
-    var disableButton;
-
-    var errorMessage = <div className="alert alert-danger" role="alert">
-        Un des champs est mal remplis !
-    </div>;
-
-    var successMessage = <div className="toast show">
-        <div className="toast-header">
-            <strong className="me-auto">Succes !</strong>
-            <button type="button" className="btn-close" data-bs-dismiss="toast"></button>
-        </div>
-        <div className="toast-body">
-            <p>Votre commande à bien était prise en compte !</p>
-        </div>
-    </div>;
-
-    const handleInputChange = event => {
-        setFormData({ ...formData, [event.target.name]: event.target.value });
+    const fetchOrders = () => {
+        fetch('http://cabe0232.odns.fr/webdev-api/order')
+            .then((res) => res.json())
+            .then((orders) => setOrderList(orders))
     };
 
+    useEffect(fetchOrders, []);
 
-    const sendCommand = (data) => {
-        fetch('http://cabe0232.odns.fr/webdev-api/order', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-            .then((response) => response.text())
-            .then((data) => {
-                //console.log('Success:', data);
-                setShowSuccess(true);
-                clearForm();
-                clearCard();
-            })
-            .catch((error) => {
-                //console.error('Error:', error);
-            });
-    }
-
-    const clearForm = () => {
-        setFormData({
-            nom: "",
-            prenom: "",
-            telephone: ""
-        });
-    }
-
-    const clearCard = () => {
-        setCart({ selectedFoods: [], selectedMenus: [] });
-    }
-
-
-    const builderRequest = () => {
-        let desc = "";
-        let price = 0;
-        desc += "Les nourritures:\n"
-        cart.selectedFoods.forEach(food => {
-            desc += food.title + "\n";
-            price += food.price;
-
-        });
-        desc += "Les Menus:\n"
-        cart.selectedMenus.forEach(menu => {
-            desc += menu.meal.title + " " + menu.dessert.title + "\n";
-            price += menu.price;
-        });
-
-        let ladate = new Date();
-        price.toFixed(2);
-        return { "desc": desc, "price": price, "date": ladate.toISOString() };
-    }
-
-    const handleCLick = (event) => {
-
-        event.preventDefault();
-        if (formData.nom != "" && formData.prenom != "" && formData.telephone != "") {
-            setShowResults(false);
-            let data = builderRequest();
-            let dataRequest = {
-                "id": Math.floor((Math.random() * 100000000000)),
-                "description": data.desc,
-                "client": formData.nom + " " + formData.prenom + " " + formData.telephone,
-                "price": data.price,
-                "date": data.date
-            }
-            sendCommand(dataRequest);
+    const handleCheckboxChange = (id) => {
+        const idx = selected.indexOf(id);
+        if (id >= 0) {
+            selected.splice(idx, 1);
+            setSelected(selected);
+        } else {
+            setSelected([...selected, id]);
         }
-        else {
-            setShowResults(true);
-        }
-    }
+    };
 
+    const handleDeleteClicked = async () => {
+        const promises = selected.map((id) => fetch(`http://cabe0232.odns.fr/webdev-api/order/${id}`, { method: 'delete' }));
+        await Promise.all(promises);
+        setSelected([]);
+        await fetchOrders();
+    };
 
-    const verifForCommand = () => {
-        if (cart.selectedFoods.length == 0 && cart.selectedMenus.length == 0) {
-            disableButton = true;
-        }
-        else {
-            disableButton = false;
-        }
-    }
-
-    verifForCommand();
+    const orderRows = orderList.map((order) => (
+        <tr key={order.id}>
+            <td>{order.id}</td>
+            <td>{order.date}</td>
+            <td>{order.client}</td>
+            <td><pre>{order.description}</pre></td>
+            <td>{order.price}</td>
+            <td><input type="checkbox" checked={selected.includes(order.id)} onChange={() => handleCheckboxChange(order.id)} /></td>
+        </tr>
+    ));
 
     return (
         <>
-            {showSuccess ? successMessage : null}
-            <h2>Vos informations</h2>
-            <form onSubmit={handleCLick} className="form-group">
-                {showResults ? errorMessage : null}
-                <div>
-                    <label htmlFor="nom">Nom (3 à 16 char)</label>
-                    <input
-                        type="text"
-                        id="nom"
-                        name="nom"
-                        value={formData.nom}
-                        onChange={handleInputChange}
-                        className="form-control"
-                        pattern="\w{3,16}"
-                        key="inputName"
-                    />
-                </div>
-                <div>
-                    <label htmlFor="prenom">Prénom (3 à 16 char)</label>
-                    <input
-                        type="text"
-                        id="prenom"
-                        name="prenom"
-                        value={formData.prenom}
-                        onChange={handleInputChange}
-                        className="form-control"
-                        pattern="\w{3,16}"
-                        key="inputSurname"
-                    />
-                </div>
-                <div>
-                    <label htmlFor="telephone">Téléphone (Valid synthaxe)</label>
-                    <input
-                        type="tel"
-                        id="telephone"
-                        name="telephone"
-                        value={formData.telephone}
-                        onChange={handleInputChange}
-                        className="form-control"
-                        pattern="^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"
-                        key="inputPhone"
-                    />
-                </div>
-                <button disabled={disableButton} type="submit" className="btn btn-primary mt-1">Envoyer</button>
-            </form>
+            <h2>Commandes</h2>
+            <button type="button" className="mt-3 mb-3 btn btn-danger" onClick={handleDeleteClicked}>Supprimer la sélection</button>
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Client</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Prix</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {orderRows}
+                </tbody>
+            </table>
         </>
     );
+
 };
